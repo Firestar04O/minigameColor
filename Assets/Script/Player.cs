@@ -10,8 +10,10 @@ public class Player : MonoBehaviour
     public int currentHealth;
     public TextMeshProUGUI healthtext;
     SpriteRenderer myspriteRenderer;
+    public bool Imcolliding;
     private void Awake()
     {
+        Imcolliding = false;
         myspriteRenderer = GetComponent<SpriteRenderer>();
     }
     private void Start()
@@ -31,14 +33,22 @@ public class Player : MonoBehaviour
     {
         healthtext.text = "Vida: " + currentHealth;
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.GetComponent<SpriteRenderer>().color != myspriteRenderer.color)
+        Imcolliding = true;
+        if (collision.gameObject.GetComponent<SpriteRenderer>().color != myspriteRenderer.color)
         {
             if (collision.gameObject.tag == "KindEarth" || collision.gameObject.tag == "KindAir" || collision.gameObject.tag == "KindStatic")
             {
                 currentHealth--;
             }
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "KindEarth" || collision.gameObject.tag == "KindAir" || collision.gameObject.tag == "KindStatic")
+        {
+            Imcolliding = false;
         }
     }
 }

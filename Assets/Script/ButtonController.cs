@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour
 {
-    public GameObject player;
+    public Player player;
     public SpriteRenderer playerspriteRenderer;
     public Button mybutton;
     private void Awake()
@@ -16,7 +16,10 @@ public class ButtonController : MonoBehaviour
     }
     public void ChangePlayerColor()
     {
-        Color buttonColor = GetComponent<Image>().color;
-        playerspriteRenderer.color = buttonColor;
+        if (!player.Imcolliding)
+        {
+            Color buttonColor = GetComponent<Image>().color;
+            playerspriteRenderer.color = buttonColor;
+        }
     }
 }
