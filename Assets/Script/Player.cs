@@ -8,13 +8,16 @@ public class Player : MonoBehaviour
 {
     public int maxHealth = 10;
     public int currentHealth;
+    public float currenttime;
     public TextMeshProUGUI healthtext;
+    public TextMeshProUGUI time;
     SpriteRenderer myspriteRenderer;
     public bool Imcolliding;
     private void Awake()
     {
         Imcolliding = false;
         myspriteRenderer = GetComponent<SpriteRenderer>();
+        currenttime = 0;
     }
     private void Start()
     {
@@ -22,7 +25,8 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        if(currentHealth <= 0)
+        currenttime = Time.deltaTime + currenttime;
+        if (currentHealth <= 0)
         {
             currentHealth = maxHealth;
             transform.position = new Vector2(-7, -3.385f);
@@ -32,6 +36,7 @@ public class Player : MonoBehaviour
     private void Updatetext()
     {
         healthtext.text = "Vida: " + currentHealth;
+        time.text = "Tiempo: " + Mathf.FloorToInt(currenttime);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
