@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Playermovement : MonoBehaviour
 {
+    public UIManager uimanager;
     public int velocity;
     public int jumpforce;
     private float Horizontal;
@@ -29,22 +30,28 @@ public class Playermovement : MonoBehaviour
     }
     private void Update()
     {
-        Horizontal = Input.GetAxis("Horizontal");
-        _direction = Vector2.down;
-        if (Input.GetKeyDown(KeyCode.Space) && Verifyjump || Input.GetKeyDown(KeyCode.Space) && count < 1)
+        if (uimanager.Invideogame)
         {
-            jumpPresssed = true;
-            count++;
+            Horizontal = Input.GetAxis("Horizontal");
+            _direction = Vector2.down;
+            if (Input.GetKeyDown(KeyCode.Space) && Verifyjump || Input.GetKeyDown(KeyCode.Space) && count < 1)
+            {
+                jumpPresssed = true;
+                count++;
+            }
+            DoRaycast(_direction);
         }
-        DoRaycast(_direction);
     }
     void FixedUpdate()
     {
-        myrgbd.velocity = new Vector2(Horizontal * velocity, myrgbd.velocity.y);
-        if (jumpPresssed)
+        if (uimanager.Invideogame)
         {
-            myrgbd.velocity = new Vector2(myrgbd.velocity.x, jumpforce);
-            jumpPresssed = false;
+            myrgbd.velocity = new Vector2(Horizontal * velocity, myrgbd.velocity.y);
+            if (jumpPresssed)
+            {
+                myrgbd.velocity = new Vector2(myrgbd.velocity.x, jumpforce);
+                jumpPresssed = false;
+            }
         }
     }
     public void DoRaycast(Vector2 direction)
